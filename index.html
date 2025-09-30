@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ट्रॅक्टर सर्व्हिस मॅकॅनिक कोर्स - नोंदणी</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; color: #2d3748; background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); min-height: 100vh; padding-bottom: 100px; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 20px; }
+        .header { background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 35px 25px; margin-bottom: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px; flex-wrap: wrap; gap: 20px; }
+        .header-left, .header-center, .header-right { flex: 1; min-width: 200px; }
+        .header-left { text-align: left; } .header-center { text-align: center; } .header-right { text-align: right; }
+        .logo-placeholder { width: 80px; height: 80px; background: #f0f0f0; border: 2px dashed #ccc; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 12px; color: #666; text-align: center; }
+        .header-left .logo-placeholder { margin: 0 0 15px 0; } .header-right .logo-placeholder { margin: 0 0 15px auto; }
+        .header h2 { font-size: 1.4em; font-weight: 700; color: #2d3748; }
+        .header-subtitle { text-align: center; margin-top: 25px; padding-top: 25px; border-top: 3px solid #f6ad55; }
+        .header-subtitle h1 { color: #2d3748; font-size: 2em; font-weight: 700; }
+        .title-section { background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 40px; margin-bottom: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .title-section h1 { color: #2d3748; margin-bottom: 20px; font-size: 2.2em; font-weight: 700; }
+        .course-highlight { background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%); color: white; padding: 15px 30px; border-radius: 50px; display: inline-block; font-weight: 700; margin-top: 15px; font-size: 1.1em; }
+        .registration-form { background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 40px; margin-bottom: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .registration-form h2 { color: #2d3748; margin-bottom: 30px; text-align: center; font-size: 2.2em; font-weight: 700; }
+        .form-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        .form-group { margin-bottom: 25px; } 
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #2d3748; font-size: 1.1em; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 15px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 16px; font-weight: 500; background: rgba(255,255,255,0.8); font-family: 'Poppins', sans-serif; color: #2d3748; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); background: white; }
+        .questions-section { margin-top: 40px; padding-top: 30px; border-top: 2px solid #e2e8f0; }
+        .questions-section h3 { color: #2d3748; font-size: 1.5em; font-weight: 700; margin-bottom: 25px; text-align: center; }
+        .question-item { margin-bottom: 25px; padding: 20px; background: rgba(247, 250, 252, 0.8); border-radius: 15px; border-left: 4px solid #667eea; }
+        .question-item label { display: block; margin-bottom: 15px; font-weight: 600; color: #2d3748; font-size: 1.1em; }
+        .radio-group { display: flex; gap: 25px; flex-wrap: wrap; }
+        .radio-option { display: flex; align-items: center; font-weight: 600; cursor: pointer; padding: 15px 25px; border-radius: 12px; border: 2px solid #e2e8f0; background: rgba(255,255,255,0.9); font-size: 1.1em; min-width: 120px; justify-content: center; color: #2d3748; }
+        .radio-option:hover { border-color: #667eea; background: rgba(102,126,234,0.05); }
+        .radio-option input[type="radio"] { width: 20px; height: 20px; margin-right: 12px; }
+        .submit-section { text-align: center; margin-top: 40px; padding-top: 30px; border-top: 2px solid #e2e8f0; }
+        .submit-btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px 50px; border: none; border-radius: 50px; font-size: 1.3em; font-weight: 700; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.3s; }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(102,126,234,0.3); }
+        .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .loading { display: none; text-align: center; margin: 25px 0; color: #667eea; }
+        .spinner { border: 4px solid rgba(102,126,234,0.3); border-top: 4px solid #667eea; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .success-message { background: linear-gradient(135deg, #48bb78, #38a169); color: white; padding: 20px; border-radius: 15px; margin: 25px 0; text-align: center; display: none; font-weight: 600; font-size: 1.1em; }
+        .dashboard { margin-bottom: 30px; } 
+        .dashboard h2 { color: white; text-align: center; margin-bottom: 30px; font-size: 2.5em; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        .stat-card { background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.15); transition: all 0.3s; }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-card h3 { color: #2d3748; margin-bottom: 15px; font-size: 1.1em; font-weight: 600; }
+        .stat-number { font-size: 3.5em; font-weight: 800; margin-bottom: 10px; color: #667eea; transition: all 0.3s; }
+        .stat-label { color: #4a5568; font-size: 0.9em; font-weight: 500; }
+        .pdf-reports, .admin-login, .admin-panel, .selected-candidates, .contact-section { background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 40px; margin-bottom: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .pdf-reports h2, .admin-login h2, .admin-panel h2, .selected-candidates h2, .contact-section h2 { color: #2d3748; margin-bottom: 25px; text-align: center; font-size: 2.2em; font-weight: 700; }
+        .pdf-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .pdf-btn, .admin-btn { background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; padding: 15px 30px; border: none; border-radius: 50px; font-size: 1.1em; font-weight: 700; cursor: pointer; margin: 10px; transition: all 0.3s; }
+        .pdf-btn:hover, .admin-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(72,187,120,0.3); }
+        .admin-btn { background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%); }
+        .admin-btn:hover { box-shadow: 0 10px 20px rgba(66,153,225,0.3); }
+        .admin-panel { display: none; }
+        .table-container { overflow-x: auto; }
+        .admin-table, .candidates-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 10px; overflow: hidden; }
+        .admin-table th, .admin-table td, .candidates-table th, .candidates-table td { padding: 15px 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .admin-table th, .candidates-table th { background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-weight: 700; }
+        .admin-table tr:hover, .candidates-table tr:hover { background: rgba(102,126,234,0.05); }
+        .status-select { padding: 10px 15px; border: 2px solid #e2e8f0; border-radius: 8px; background: white; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+        .status-select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
+        .contact-card { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 30px; border-radius: 20px; text-align: center; transition: all 0.3s; }
+        .contact-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(102,126,234,0.4); }
+        .contact-card h3 { margin-bottom: 15px; font-size: 1.4em; }
+        .phone { font-weight: 700; font-size: 1.3em; margin-top: 15px; }
+        .connection-status { position: fixed; top: 20px; right: 20px; padding: 12px 20px; border-radius: 25px; font-size: 13px; font-weight: bold; z-index: 1001; background: #ffc107; color: white; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .connection-status:hover { transform: scale(1.05); }
+        .sticky-footer { position: fixed; bottom: 0; left: 0; right: 0; background: linear-gradient(135deg, #2d3748, #4a5568); color: white; text-align: center; padding: 15px 0; font-weight: 700; z-index: 1000; box-shadow: 0 -5px 15px rgba(0,0,0,0.2); }
+        @media (max-width: 768px) { .header-top { flex-direction: column; text-align: center; } .form-fields { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); } .radio-group { flex-direction: column; } .container { padding: 15px; } body { padding-bottom: 80px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="header">
+            <div class="header-top">
+                <div class="header-left">
+                    <img src="mahindra-logo.png" alt="Mahindra Skills" style="width:80px;height:80px;margin-bottom:15px;object-fit:contain;">
+                    <h2>Mahindra Tractors<br>Skill Development</h2>
+                </div>
+                <div class="header-center">
+                    <img src="maharashtra-logo.png" alt="Govt Maharashtra" style="width:80px;height:80px;margin:0 auto 15px;display:block;object-fit:contain;">
+                    <h2>Govt. of Maharashtra<br>महाराष्ट्र शासन</h2>
+                </div>
+                <div class="header-right">
+                    <img src="dvet-logo.png" alt="DVET Maharashtra" style="width:80px;height:80px;margin:0 0 15px auto;display:block;object-fit:contain;">
+                    <h2>DVET<br>Maharashtra</h2>
+                </div>
+            </div>
+            <div class="header-subtitle"><h1>क्रांतिवीर बाबूराव शेडमाके शासकीय औ.प्र.संस्था (आदिवासी) गडचिरोली</h1></div>
+        </section>
+        <section class="title-section">
+            <h1>महिंद्रा अँड महिंद्रा फार्म डिव्हिजन संयुक्त उपक्रम</h1>
+            <div class="course-highlight">ट्रॅक्टर सर्व्हिस मॅकॅनिक - 390 तासांचा शॉर्ट टर्म कोर्स</div>
+            <p style="margin-top: 15px; font-size: 1.2em;">पथदर्शी प्रकल्प</p>
+        </section>
+        <section class="registration-form">
+            <h2>नोंदणी फॉर्म</h2>
+            <form id="registrationForm">
+                <div class="form-fields">
+                    <div class="form-group"><label for="name">आपले नाव *</label><input type="text" id="name" name="name" required></div>
+                    <div class="form-group"><label for="father_name">वडिलांचे नाव *</label><input type="text" id="father_name" name="father_name" required></div>
+                    <div class="form-group"><label for="birthdate">जन्म तारीख *</label><input type="date" id="birthdate" name="birthdate" required></div>
+                    <div class="form-group"><label for="education">शैक्षणिक पात्रता *</label><select id="education" name="education" required><option value="">निवडा</option><option value="10th">10वी उत्तीर्ण</option><option value="12th">12वी उत्तीर्ण</option><option value="ITI">ITI उत्तीर्ण</option><option value="diploma">डिप्लोमा</option><option value="graduation">पदवी</option></select></div>
+                    <div class="form-group"><label for="mobile">मोबाइल नंबर *</label><input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" required></div>
+                    <div class="form-group"><label for="email">ई-मेल आयडी *</label><input type="email" id="email" name="email" required></div>
+                    <div class="form-group"><label for="address">पूर्ण पत्ता *</label><textarea id="address" name="address" rows="3" required></textarea></div>
+                    <div class="form-group"><label for="category">जात प्रवर्ग *</label><select id="category" name="category" required><option value="">निवडा</option><option value="SC">अनुसूचित जाती (SC)</option><option value="ST">अनुसूचित जमाती (ST)</option><option value="NT">विमुक्त/भटक्या जमाती (NT)</option><option value="OBC">इतर मागासवर्गीय (OBC)</option><option value="Others">इतर (Others)</option></select></div>
+                    <div class="form-group"><label for="weight">आपले वजन (KG) *</label><input type="number" id="weight" name="weight" min="30" max="150" required></div>
+                </div>
+                <div class="questions-section">
+                    <h3>महत्वाचे प्रश्न</h3>
+                    <div class="question-item"><label>आपण लिहू आणि वाचू शकता काय? *</label><div class="radio-group"><label class="radio-option"><input type="radio" name="literacy" value="yes" required><span>होय</span></label><label class="radio-option"><input type="radio" name="literacy" value="no" required><span>नाही</span></label></div></div>
+                    <div class="question-item"><label>आपण सध्या शिक्षण घेत आहात काय? *</label><div class="radio-group"><label class="radio-option"><input type="radio" name="current_education" value="yes" required><span>होय</span></label><label class="radio-option"><input type="radio" name="current_education" value="no" required><span>नाही</span></label></div></div>
+                    <div class="question-item"><label>हे प्रशिक्षण पूर्ण होताच आपण काम करण्यास तयार आहात काय? *</label><div class="radio-group"><label class="radio-option"><input type="radio" name="work_ready" value="yes" required><span>होय</span></label><label class="radio-option"><input type="radio" name="work_ready" value="no" required><span>नाही</span></label></div></div>
+                    <div class="question-item"><label>या कामाच्या संधीकरिता आपण दुसऱ्या शहरात प्रवास करण्यास तयार आहात काय? *</label><div class="radio-group"><label class="radio-option"><input type="radio" name="travel_ready" value="yes" required><span>होय</span></label><label class="radio-option"><input type="radio" name="travel_ready" value="no" required><span>नाही</span></label></div></div>
+                    <div class="question-item"><label>आपण गंभीर स्वरूपाच्या आजाराने ग्रसत आहात काय किंवा काही शस्त्रक्रिया झाली आहे काय? *</label><div class="radio-group"><label class="radio-option"><input type="radio" name="health_issues" value="yes" required><span>होय</span></label><label class="radio-option"><input type="radio" name="health_issues" value="no" required><span>नाही</span></label></div></div>
+                </div>
+                <div class="submit-section">
+                    <div class="loading" id="loading"><div class="spinner"></div><p>नोंदणी प्रक्रिया सुरू आहे...</p></div>
+                    <div class="success-message" id="successMessage">नोंदणी यशस्वी!</div>
+                    <button type="submit" class="submit-btn" id="submitBtn">नोंदणी करा</button>
+                </div>
+            </form>
+        </section>
+        <section class="dashboard">
+            <h2>डॅशबोर्ड</h2>
+            <div class="stats-grid">
+                <div class="stat-card"><h3>एकूण अर्जदार</h3><div class="stat-number" id="totalApplications">0</div><div class="stat-label">Total Applications</div></div>
+                <div class="stat-card"><h3>साक्षर उमेदवार</h3><div class="stat-number" id="literacyCount">0</div><div class="stat-label">Can Read & Write</div></div>
+                <div class="stat-card"><h3>सध्या शिकत आहेत</h3><div class="stat-number" id="currentEducationCount">0</div><div class="stat-label">Currently Studying</div></div>
+                <div class="stat-card"><h3>काम करण्यास तयार</h3><div class="stat-number" id="workReadyCount">0</div><div class="stat-label">Ready to Work</div></div>
+                <div class="stat-card"><h3>प्रवास करण्यास तयार</h3><div class="stat-number" id="travelReadyCount">0</div><div class="stat-label">Ready to Travel</div></div>
+                <div class="stat-card"><h3>निवडलेले उमेदवार</h3><div class="stat-number" id="selectedCount">0</div><div class="stat-label">Selected Candidates</div></div>
+                <div class="stat-card"><h3>वय 18-28 वर्षे</h3><div class="stat-number" id="ageEligibleCount">0</div><div class="stat-label">Age 18-28 Years</div></div>
+                <div class="stat-card"><h3>वजन 45+ किग्रॅ</h3><div class="stat-number" id="weightEligibleCount">0</div><div class="stat-label">Weight 45+ Kgs</div></div>
+            </div>
+        </section>
+        <section class="pdf-reports">
+            <h2>PDF रिपोर्ट्स</h2>
+            <div class="pdf-buttons">
+                <button class="pdf-btn" id="appliedPdfBtn">अर्जदारांची PDF</button>
+                <button class="pdf-btn" id="selectedPdfBtn">निवडलेल्यांची PDF</button>
+            </div>
+        </section>
+        <section class="admin-login">
+            <h2>Admin Panel</h2>
+            <div class="admin-controls">
+                <button class="admin-btn" id="adminLoginBtn">Admin Login</button>
+                <button class="admin-btn" id="logoutBtn" style="display:none;">Logout</button>
+            </div>
+        </section>
+        <section class="admin-panel" id="adminPanel">
+            <h2>Candidate Selection Management</h2>
+            <div style="text-align:center;margin-bottom:20px;">
+                <button class="admin-btn" onclick="loadData()" style="background:linear-gradient(135deg,#667eea,#764ba2);">Refresh Data</button>
+            </div>
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead><tr><th>Sr.</th><th>Name</th><th>Father Name</th><th>Mobile</th><th>Education</th><th>Category</th><th>Age</th><th>Status</th><th>Action</th></tr></thead>
+                    <tbody id="adminTableBody"><tr><td colspan="9" style="text-align:center;padding:30px;">Loading...</td></tr></tbody>
+                </table>
+            </div>
+        </section>
+        <section class="selected-candidates">
+            <h2>निवडलेले उमेदवार</h2>
+            <div class="table-container">
+                <table class="candidates-table">
+                    <thead><tr><th>अनुक्रमांक</th><th>नाव</th><th>वडिलांचे नाव</th><th>मोबाइल नंबर</th><th>शैक्षणिक पात्रता</th><th>जात प्रवर्ग</th><th>स्थिती</th></tr></thead>
+                    <tbody id="selectedCandidatesTable"><tr><td colspan="7" style="text-align:center;padding:30px;">Loading...</td></tr></tbody>
+                </table>
+            </div>
+        </section>
+        <section class="contact-section">
+            <h2>संपर्क माहिती</h2>
+            <div class="contact-grid">
+                <div class="contact-card"><h3>श्री.बावनकर</h3><p>गट निदेशक</p><p>शासकीय औद्योगिक प्रशिक्षण संस्था</p><p>गडचिरोली</p><div class="phone">7057070787</div></div>
+                <div class="contact-card"><h3>श्रीमती. प्रियंका इडपात्रे</h3><p>यंग प्रोफेशनल</p><p>जिल्हा कौशल्य विकास, रोजगार व उद्योजकता मार्गदर्शन केंद्र</p><p>गडचिरोली</p><div class="phone">7843048249</div></div>
+            </div>
+        </section>
+    </div>
+    <div class="connection-status" id="connectionStatus">Connecting...</div>
+    <div class="sticky-footer">Developed By- Anand Kathalewar, Govt ITI Nagpur</div>
+    
+    <script>
+// ========== CONFIGURATION ==========
+var APP = {
+    url: 'https://script.google.com/macros/s/AKfycbwf9A27v3sOay5bxT8w5118cVpVYBvCfnjmeuUoEjvyS8QX0VjkmDVXp8wbbYjd4iHo/exec',
+    pwd: 'ITI@Gadchiroli2025',
+    data: { apps: [], sel: [], admin: false }
+};
+
+// ========== UTILITY FUNCTIONS ==========
+function setStatus(s) {
+    var e = document.getElementById('connectionStatus');
+    if (!e) return;
+    var c = {loading: ['Loading...', '#ffc107'], connected: ['Connected ✓', '#48bb78'], error: ['Error', '#e53e3e'], saving: ['Saving...', '#4299e1']};
+    var cfg = c[s] || ['Ready', '#667eea'];
+    e.textContent = cfg[0];
+    e.style.background = cfg[1];
+}
+
+function calcAge(d) {
+    if (!d) return 0;
+    var t = new Date(), b = new Date(d), a = t.getFullYear() - b.getFullYear(), m = t.getMonth() - b.getMonth();
+    if (m < 0 || (m === 0 && t.getDate() < b.getDate())) a--;
+    return Math.max(0, a);
+}
+
+// ========== DATA LOADING ==========
+function loadData() {
+    console.log('loadData() called at', new Date().toLocaleTimeString());
+    setStatus('loading');
+    fetch(APP.url + '?action=getApplications&t=' + Date.now()).then(function(r) {
+        console.log('Response status:', r.status);
+        return r.json();
+    }).then(function(result) {
+        console.log('Data received:', result.success ? result.data.length + ' records' : 'FAILED');
+        if (result.success) {
+            APP.data.apps = result.data || [];
+            APP.data.sel = APP.data.apps.filter(function(a) { return a.selection_status && a.selection_status.toLowerCase() === 'selected'; });
+            updateDash();
+            updateAdminTbl();
+            updateSelTbl();
+            setStatus('connected');
+        } else {
+            setStatus('error');
+            alert('Failed to load data: ' + (result.message || 'Unknown error'));
+        }
+    }).catch(function(e) {
+        console.error('Load error:', e);
+        setStatus('error');
+        alert('Connection error: ' + e.message);
+    });
+}
+
+// ========== UI UPDATE FUNCTIONS ==========
+function updateDash() {
+    var a = APP.data.apps;
+    document.getElementById('totalApplications').textContent = a.length;
+    document.getElementById('literacyCount').textContent = a.filter(function(x) { return x.literacy === 'yes'; }).length;
+    document.getElementById('currentEducationCount').textContent = a.filter(function(x) { return x.current_education === 'yes'; }).length;
+    document.getElementById('workReadyCount').textContent = a.filter(function(x) { return x.work_ready === 'yes'; }).length;
+    document.getElementById('travelReadyCount').textContent = a.filter(function(x) { return x.travel_ready === 'yes'; }).length;
+    document.getElementById('selectedCount').textContent = APP.data.sel.length;
+    document.getElementById('ageEligibleCount').textContent = a.filter(function(x) { return x.age >= 18 && x.age <= 28; }).length;
+    document.getElementById('weightEligibleCount').textContent = a.filter(function(x) { return x.weight >= 45; }).length;
+}
+
+function updateAdminTbl() {
+    var tb = document.getElementById('adminTableBody');
+    if (!tb) return;
+    var apps = APP.data.apps;
+    if (apps.length === 0) {
+        tb.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;">No applications found</td></tr>';
+        return;
+    }
+    var html = '';
+    for (var i = 0; i < apps.length; i++) {
+        var app = apps[i];
+        var st = app.selection_status || 'Pending';
+        var clr = st === 'Selected' ? '#48bb78' : (st === 'Rejected' ? '#e53e3e' : '#ffc107');
+        html += '<tr><td>' + (i + 1) + '</td><td>' + (app.name || '-') + '</td><td>' + (app.father_name || '-') + '</td><td>' + (app.mobile || '-') + '</td><td>' + (app.education || '-') + '</td><td>' + (app.category || '-') + '</td><td>' + (app.age || '-') + '</td><td><span style="color:' + clr + ';font-weight:bold;">' + st + '</span></td><td><select class="status-select" data-mobile="' + app.mobile + '" data-email="' + app.email + '" data-current="' + st + '" onchange="changeStatus(this)"><option value="Pending"' + (st === 'Pending' ? ' selected' : '') + '>Pending</option><option value="Selected"' + (st === 'Selected' ? ' selected' : '') + '>Selected</option><option value="Rejected"' + (st === 'Rejected' ? ' selected' : '') + '>Rejected</option></select></td></tr>';
+    }
+    tb.innerHTML = html;
+}
+
+function updateSelTbl() {
+    var tb = document.getElementById('selectedCandidatesTable');
+    if (!tb) return;
+    var sel = APP.data.sel;
+    if (sel.length === 0) {
+        tb.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;">No selected candidates yet</td></tr>';
+        return;
+    }
+    var html = '';
+    for (var i = 0; i < sel.length; i++) {
+        var app = sel[i];
+        html += '<tr><td>' + (i + 1) + '</td><td>' + (app.name || '-') + '</td><td>' + (app.father_name || '-') + '</td><td>' + (app.mobile || '-') + '</td><td>' + (app.education || '-') + '</td><td>' + (app.category || '-') + '</td><td><span style="color:#48bb78;font-weight:bold;">✓ Selected</span></td></tr>';
+    }
+    tb.innerHTML = html;
+}
+
+// ========== STATUS CHANGE ==========
+function changeStatus(sel) {
+    if (!APP.data.admin) {
+        alert('Please login as admin first');
+        return;
+    }
+    var newSt = sel.value;
+    var oldSt = sel.getAttribute('data-current');
+    if (newSt === oldSt) return;
+    var mob = sel.getAttribute('data-mobile');
+    var eml = sel.getAttribute('data-email');
+    if (!confirm('Change status from "' + oldSt + '" to "' + newSt + '"?\n\nMobile: ' + mob + '\nEmail: ' + eml)) {
+        sel.value = oldSt;
+        return;
+    }
+    sel.disabled = true;
+    setStatus('saving');
+    console.log('Status update - Mobile:', mob, 'Email:', eml, 'New:', newSt);
+    fetch(APP.url, {
+        method: 'POST',
+        headers: {'Content-Type': 'text/plain'},
+        body: JSON.stringify({action: 'updateCandidateStatus', data: {mobile: mob, email: eml, selection_status: newSt}})
+    }).then(function(r) {
+        console.log('HTTP:', r.status);
+        return r.text();
+    }).then(function(txt) {
+        console.log('Response:', txt.substring(0, 200));
+        var result = JSON.parse(txt);
+        if (result.success) {
+            for (var i = 0; i < APP.data.apps.length; i++) {
+                if (APP.data.apps[i].mobile === mob && APP.data.apps[i].email === eml) {
+                    APP.data.apps[i].selection_status = newSt;
+                    break;
+                }
+            }
+            if (newSt.toLowerCase() === 'selected') {
+                var exists = false;
+                for (var i = 0; i < APP.data.sel.length; i++) {
+                    if (APP.data.sel[i].mobile === mob) {
+                        exists = true;
+                        break;
+                    }
+                }
+                if (!exists) {
+                    for (var i = 0; i < APP.data.apps.length; i++) {
+                        if (APP.data.apps[i].mobile === mob) {
+                            APP.data.sel.push(APP.data.apps[i]);
+                            break;
+                        }
+                    }
+                }
+            } else {
+                var newSel = [];
+                for (var i = 0; i < APP.data.sel.length; i++) {
+                    if (APP.data.sel[i].mobile !== mob) {
+                        newSel.push(APP.data.sel[i]);
+                    }
+                }
+                APP.data.sel = newSel;
+            }
+            sel.setAttribute('data-current', newSt);
+            updateDash();
+            updateAdminTbl();
+            updateSelTbl();
+            setStatus('connected');
+            alert('✅ Status updated to: ' + newSt + '\n\nSheet Row: ' + result.row);
+        } else {
+            alert('❌ Failed: ' + (result.message || 'Unknown error'));
+            sel.value = oldSt;
+            setStatus('error');
+        }
+        sel.disabled = false;
+    }).catch(function(e) {
+        console.error('Error:', e);
+        alert('❌ Error: ' + e.message);
+        sel.value = oldSt;
+        sel.disabled = false;
+        setStatus('error');
+    });
+}
+
+// ========== PDF GENERATION (APPROVED VERSION) ==========
+function genPDF(t){var j=window.jspdf.jsPDF;var d=t==='selected'?APP.data.sel:APP.data.apps;if(d.length===0){alert('No data');return;}var doc=new j('l','mm','a4');var pw=doc.internal.pageSize.getWidth();var ph=doc.internal.pageSize.getHeight();var pn=1;function hdr(){doc.setFillColor(102,126,234);doc.rect(0,0,pw,40,'F');doc.setTextColor(255,255,255);doc.setFontSize(18);doc.setFont(undefined,'bold');doc.text('Government of Maharashtra',pw/2,12,{align:'center'});doc.setFontSize(12);doc.text('Directorate of Vocational Education and Training (DVET)',pw/2,19,{align:'center'});doc.setFontSize(11);doc.setFont(undefined,'bold');doc.text('Krantivirbaburao Shedmake Govt. ITI (Tribal), Gadchiroli',pw/2,27,{align:'center'});doc.setFontSize(8);doc.setFont(undefined,'normal');doc.text('Mahindra & Mahindra Farm Division - Tractor Service Mechanic (390 Hrs)',pw/2,33,{align:'center'});doc.setFontSize(7);doc.setFont(undefined,'italic');doc.text('Pathdarshi Project - Skill India Initiative',pw/2,38,{align:'center'});doc.setFillColor(246,173,85);doc.rect(0,40,pw,12,'F');doc.setTextColor(45,55,72);doc.setFontSize(14);doc.setFont(undefined,'bold');doc.text(t==='selected'?'SELECTED CANDIDATES REPORT':'ALL APPLICATIONS REPORT',pw/2,48,{align:'center'});doc.setFillColor(247,250,252);doc.rect(0,52,pw,8,'F');doc.setTextColor(74,85,104);doc.setFontSize(8);doc.setFont(undefined,'normal');var now=new Date();var dt=now.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});var tm=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});doc.text('Generated: '+dt+' at '+tm,8,57);doc.setFont(undefined,'bold');doc.text('Total: '+d.length,pw/2,57,{align:'center'});doc.setFont(undefined,'normal');doc.text('Page: '+pn,pw-8,57,{align:'right'});}function ftr(){doc.setTextColor(0,0,0);doc.setFontSize(8);doc.setFont(undefined,'normal');doc.text('Mahindra Skills Farm Division & ITI Gadchiroli',8,ph-11);doc.setFont(undefined,'bold');doc.text('Developed By: Anand Kathalewar, Govt ITI Nagpur',pw-8,ph-11,{align:'right'});doc.setFontSize(7);doc.setFont(undefined,'italic');doc.text('Contact: 7057070787 | 7843048249',pw/2,ph-5,{align:'center'});}var cols=[{h:'Sr.',w:11},{h:'Name',w:33},{h:'Father',w:33},{h:'Mobile',w:24},{h:'Email',w:45},{h:'Edu',w:23},{h:'Cat',w:19},{h:'Age',w:13},{h:'Wt',w:17},{h:'Status',w:22}];var tw=cols.reduce(function(s,c){return s+c.w;},0);var sx=(pw-tw)/2;var sy=64;var rh=9;var hh=11;function tHdr(y){doc.setFillColor(102,126,234);doc.rect(sx,y,tw,hh,'F');doc.setDrawColor(76,96,204);doc.setLineWidth(0.5);doc.line(sx,y+hh,sx+tw,y+hh);doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont(undefined,'bold');var x=sx;for(var i=0;i<cols.length;i++){doc.text(cols[i].h,x+cols[i].w/2,y+7.5,{align:'center'});if(i<cols.length-1){doc.setDrawColor(150,160,220);doc.setLineWidth(0.3);doc.line(x+cols[i].w,y,x+cols[i].w,y+hh);}x+=cols[i].w;}return y+hh;}function tRow(y,rd,idx){doc.setFillColor(idx%2===0?249:255,250,251);doc.rect(sx,y,tw,rh,'F');doc.setDrawColor(226,232,240);doc.setLineWidth(0.2);var x=sx;for(var i=0;i<cols.length;i++){doc.rect(x,y,cols[i].w,rh);x+=cols[i].w;}doc.setTextColor(45,55,72);doc.setFontSize(8);doc.setFont(undefined,'normal');x=sx;for(var i=0;i<rd.length;i++){var txt=String(rd[i]||'-');if(cols[i].w<20&&txt.length>12)txt=txt.substring(0,10)+'..';else if(cols[i].w<30&&txt.length>18)txt=txt.substring(0,16)+'..';else if(cols[i].w<50&&txt.length>28)txt=txt.substring(0,26)+'..';if(i===9){if(txt==='Selected'){doc.setTextColor(72,187,120);doc.setFont(undefined,'bold');}else if(txt==='Rejected'){doc.setTextColor(229,62,62);}else{doc.setTextColor(255,193,7);}}doc.text(txt,x+cols[i].w/2,y+6,{align:'center'});doc.setTextColor(45,55,72);doc.setFont(undefined,'normal');x+=cols[i].w;}return y+rh;}hdr();ftr();var y=tHdr(sy);for(var i=0;i<d.length;i++){if(y>ph-28){doc.addPage();pn++;hdr();ftr();y=tHdr(sy);}var app=d[i];var rd=[String(i+1),app.name||'N/A',app.father_name||'N/A',app.mobile||'N/A',app.email||'N/A',app.education||'N/A',app.category||'N/A',String(app.age||'-'),app.weight?app.weight+' kg':'-',app.selection_status||'Pending'];y=tRow(y,rd,i);}doc.save((t==='selected'?'Selected_':'All_')+'ITI_Gadchiroli_'+new Date().toISOString().split('T')[0]+'.pdf');alert('PDF generated!');}
+
+// ========== INITIALIZATION ==========
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing... URL:', APP.url);
+    loadData();
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = document.getElementById('submitBtn');
+        var loading = document.getElementById('loading');
+        var success = document.getElementById('successMessage');
+        btn.disabled = true;
+        loading.style.display = 'block';
+        success.style.display = 'none';
+        var fd = new FormData(e.target);
+        var data = {timestamp: new Date().toISOString(), name: fd.get('name'), father_name: fd.get('father_name'), birthdate: fd.get('birthdate'), age: calcAge(fd.get('birthdate')), mobile: fd.get('mobile'), email: fd.get('email'), address: fd.get('address'), education: fd.get('education'), category: fd.get('category'), weight: fd.get('weight'), literacy: fd.get('literacy'), current_education: fd.get('current_education'), work_ready: fd.get('work_ready'), travel_ready: fd.get('travel_ready'), health_issues: fd.get('health_issues')};
+        fetch(APP.url, {method: 'POST', headers: {'Content-Type': 'text/plain'}, body: JSON.stringify({action: 'submitApplication', data: data, sendEmail: true})}).then(function(r) { return r.json(); }).then(function(result) {
+            loading.style.display = 'none';
+            if (result.success) {
+                success.textContent = 'नोंदणी यशस्वी!';
+                success.style.display = 'block';
+                e.target.reset();
+                setTimeout(function() { success.style.display = 'none'; }, 5000);
+                loadData();
+            } else {
+                alert('Error: ' + result.message);
+            }
+        }).catch(function(err) {
+            loading.style.display = 'none';
+            alert('Error: ' + err);
+        }).finally(function() {
+            btn.disabled = false;
+        });
+    });
+    document.getElementById('appliedPdfBtn').addEventListener('click', function() { genPDF('all'); });
+    document.getElementById('selectedPdfBtn').addEventListener('click', function() { genPDF('selected'); });
+    document.getElementById('adminLoginBtn').addEventListener('click', function() {
+        var p = prompt('Enter admin password:');
+        if (p === APP.pwd) {
+            APP.data.admin = true;
+            document.getElementById('adminPanel').style.display = 'block';
+            document.getElementById('adminLoginBtn').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'inline-block';
+            alert('Admin login successful!');
+            updateAdminTbl();
+        } else {
+            alert('Incorrect password!');
+        }
+    });
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+        APP.data.admin = false;
+        document.getElementById('adminPanel').style.display = 'none';
+        document.getElementById('adminLoginBtn').style.display = 'inline-block';
+        document.getElementById('logoutBtn').style.display = 'none';
+        alert('Logged out!');
+    });
+    setInterval(loadData, 30000);
+});
+    </script>
+</body>
+</html>
